@@ -21,9 +21,6 @@ if cursor1.fetchone()[0] != 1: #Checagem para ver se a table do database já exi
 conn.commit()
 conn.close()
 
-##############################################
-
-
 #Gerando a Interface Principal da Janela Principal
 
 root=Tk()
