@@ -112,11 +112,11 @@ def delete(id_entry,frame2,list_of_widgets):
 #mostrar opcoes de tipo de tampo quando casco cilindrico for selecionado
 def show_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp):
     tipotampo.grid(row=7,column=0,sticky="W")
-    tp1.grid(row=7,column=1,sticky="W")
-    tp2.grid(row=8,column=1,sticky="W")
-    tp3.grid(row=9,column=1,sticky="W")
-    tp4.grid(row=10,column=1,sticky="W")
-    tp5.grid(row=11,column=1,sticky="W")
+    tp1.grid(row=8,column=1,sticky="W")
+    tp2.grid(row=9,column=1,sticky="W")
+    tp3.grid(row=10,column=1,sticky="W")
+    tp4.grid(row=11,column=1,sticky="W")
+    tp5.grid(row=12,column=1,sticky="W")
     tipo_mat_tp.grid(row=13,column=0,sticky='W')
     lista_mat_tp.grid(row=13,column=1,sticky='W')
 #esconder opcoes de tipo de tampo quando casco esferico for selecionado
@@ -133,8 +133,8 @@ def hide_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp,ang_cone,a
     ang_cone1.grid_forget()
 #mostrar opcao de ang de cone dependendo da selecao
 def show_angcone(ang_cone,ang_cone1):
-    ang_cone.grid(row=12,column=0,sticky='W')
-    ang_cone1.grid(row=12,column=1,sticky='W')
+    ang_cone.grid(row=14,column=0,sticky='W')
+    ang_cone1.grid(row=14,column=1,sticky='W')
 #esconder opcao de ang de cone dependendo da selecao
 def hide_angcone(ang_cone,ang_cone1):
     ang_cone.grid_forget()

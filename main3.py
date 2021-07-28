@@ -53,28 +53,34 @@ diam.grid(row=2,column=0,sticky="W")
 D1=Entry(frame1)
 D1.grid(row=2,column=1,sticky="W")
 
+pre_proj=Label(frame1,text="Pressão de Projeto(Mpa):")
+pre_proj.grid(row=3,column=0,sticky='W')
+
+pre_proj1=Entry(frame1)
+pre_proj1.grid(row=3,column=1,sticky='W')
+
 ejunta=Label(frame1,text="Eficiência de junta:")
-ejunta.grid(row=3,column=0,sticky="W")
+ejunta.grid(row=4,column=0,sticky="W")
 
 ejunta1=Entry(frame1)
-ejunta1.grid(row=3,column=1,sticky="W")
+ejunta1.grid(row=4,column=1,sticky="W")
 
 casco=IntVar()
 tipocasco=Label(frame1,text="Tipo de casco:")
-tipocasco.grid(row=4,column=0,sticky="W")
+tipocasco.grid(row=5,column=0,sticky="W")
 
 tc1=Radiobutton(frame1,text="Cilíndrico",variable=casco,value=1,command=lambda: show_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp))
-tc1.grid(row=4,column=1,sticky="W")
+tc1.grid(row=5,column=1,sticky="W")
 
 tc2=Radiobutton(frame1,text="Esférico",variable=casco,value=2,command=lambda: hide_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp,ang_cone,ang_cone1))
-tc2.grid(row=5,column=1,sticky="W")
+tc2.grid(row=6,column=1,sticky="W")
 
 tipo_materiais=Label(frame1,text="Tipo de material do casco:")
-tipo_materiais.grid(row=6,column=0,sticky="W")
+tipo_materiais.grid(row=7,column=0,sticky="W")
 
 lista_mat_casco=ttk.Combobox(frame1,postcommand=lambda: update_cblist(lista_mat_casco))
 lista_mat_casco.set("Escolha uma opção:")
-lista_mat_casco.grid(row=6,column=1)
+lista_mat_casco.grid(row=7,column=1)
 
 tampo=IntVar()
 tipotampo=Label(frame1,text="Tipo de tampo:")
@@ -89,7 +95,7 @@ tp4=Radiobutton(frame1,text="Cônico",variable=tampo,value=4,command=lambda: sho
 
 tp5=Radiobutton(frame1,text="Toro Cônico",variable=tampo,value=5,command=lambda: show_angcone(ang_cone,ang_cone1))
 
-ang_cone=Label(frame1,text="Ângulo de cone(em rad):")
+ang_cone=Label(frame1,text="Ângulo de cone(em graus):")
 
 ang_cone1=Entry(frame1)
 
