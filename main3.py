@@ -9,14 +9,12 @@ from calculos import calculate
 
 conn = sqlite3.connect('materiais.db')
 cursor1 = conn.cursor()
-cursor1.execute(
-    """SELECT count(name) FROM sqlite_master WHERE type='table'
-  AND Name='listamateriais'; """)
-if cursor1.fetchone()[0] != 1:  # Checagem para ver se a table do database já existe, para o programa não dar erro
-    cursor1.execute("""CREATE TABLE listamateriais (
-        nome_mat text PRIMARY KEY,
-        tensao_adm float
-        )""")
+cursor1.execute("""
+CREATE TABLE IF NOT EXISTS listamateriais (
+  nome_mat text PRIMARY KEY,
+  tensao_adm float
+)
+""")
 conn.commit()
 conn.close()
 
