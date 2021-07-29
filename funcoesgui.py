@@ -2,6 +2,7 @@ from tkinter import *
 import sqlite3
 from tkinter import messagebox
 from tkinter import ttk
+import math
 
 #Limpar lista de materiais da janela do db de materiais
 def clearGrid(list_of_widgets):

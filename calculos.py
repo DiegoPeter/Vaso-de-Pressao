@@ -5,7 +5,11 @@ from tkinter import messagebox
 from tkinter import ttk
 from create_pdf import create_pdf
 
+
 def calculate(casco,pre_proj1,ejunta1,D1,lista_mat_casco,lista_mat_tp,tampo,ang_cone1,root,nome_proj1):
+
+    frame_res=LabelFrame(root,text="Resultados")
+
 
     #Puxando os dados dos campos
     type_casco=casco.get()
@@ -19,7 +23,7 @@ def calculate(casco,pre_proj1,ejunta1,D1,lista_mat_casco,lista_mat_tp,tampo,ang_
     if type_casco==1:
         type_tampo=tampo.get()
         if type_tampo==4 or type_tampo==5:
-            alpha=ang_cone1.get()
+            alpha=math.radians(float(ang_cone1.get()))
 
 
     #Calculando raio e raio de coroa
@@ -56,7 +60,6 @@ def calculate(casco,pre_proj1,ejunta1,D1,lista_mat_casco,lista_mat_tp,tampo,ang_
             messagebox.showinfo("Erro","O valor da pressão de projeto excede aos limites da norma ASME.\nConsidere trocar de material")
     
 
-    frame_res=LabelFrame(root,text="Resultados")
     frame_res.grid(row=1,column=2,columnspan=2,rowspan=15,padx=10,pady=10)
 
     esp_casco_label=Label(frame_res,text="Espessura do casco:")
