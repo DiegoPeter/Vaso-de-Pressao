@@ -4,7 +4,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from funcoesgui import update_cblist, show_tampo, hide_tampo,show_angcone,hide_angcone
 from matdb import mat_db_wdw
-
+from calculos import calculate
 
 #Criando Banco de Dados de Materiais
 
@@ -104,7 +104,8 @@ tipo_mat_tp=Label(frame1,text="Tipo de material do tampo:")
 lista_mat_tp=ttk.Combobox(frame1,postcommand=lambda: update_cblist(lista_mat_tp))
 lista_mat_tp.set("Escolha uma opção")
 
-
+calc1=Button(root,text="Calcular",command=lambda: calculate(casco,pre_proj1,ejunta1,D1,lista_mat_casco,lista_mat_tp,tampo,ang_cone1,root,nome_proj1))
+calc1.grid(row=15,columnspan=2,ipadx=100,pady=10)
 
 root.config(menu = MainMenu)
 root.mainloop()

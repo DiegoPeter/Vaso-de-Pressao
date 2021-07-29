@@ -7,6 +7,8 @@ from tkinter import ttk
 def clearGrid(list_of_widgets):
     for widget in list_of_widgets:
         widget.destroy()
+
+
 #Checar se é Float
 def isfloat(var):
     funciona=False
@@ -16,6 +18,8 @@ def isfloat(var):
     except ValueError:
         funciona=False
     return funciona
+
+
 #Checar se é Int
 def isInt(var):
     funciona=False
@@ -25,6 +29,8 @@ def isInt(var):
     except ValueError:
         funciona=False
     return funciona
+
+
 #Fazer update constante do seletor de materiais
 def update_cblist(lista_mat_casco):
     conn = sqlite3.connect('materiais.db')
@@ -36,6 +42,17 @@ def update_cblist(lista_mat_casco):
     lista_mat_casco['values']=vlist
     conn.commit()
     conn.close()
+
+def get_valor(nome):
+    conn = sqlite3.connect('materiais.db')
+    cursor1 = conn.cursor()
+    cursor1.execute(f"SELECT tensao_adm FROM listamateriais WHERE nome_mat='{nome.get()}'")
+    ret=cursor1.fetchall()[0]
+    conn.commit()
+    conn.close()
+    return ret[0]
+
+
 #botao adicionar material na janela do db de materiais
 def submit(ten_mat1,nome_mat1,frame2,list_of_widgets):
     
@@ -47,12 +64,6 @@ def submit(ten_mat1,nome_mat1,frame2,list_of_widgets):
     else:
         conn = sqlite3.connect('materiais.db')
         cursor1 = conn.cursor()
-        # cursor1.execute("INSERT INTO listamateriais VALUES (:nome_mat, :ten_mat)",
-        #     {
-        #         'nome_mat': nome_mat1.get(),
-        #         'ten_mat': float(ten_mat1.get())
-        #     }  
-        # )
         cursor1.execute("SELECT *, oid FROM listamateriais")
         records=cursor1.fetchall()
         shouldInsert=True
@@ -83,6 +94,7 @@ def submit(ten_mat1,nome_mat1,frame2,list_of_widgets):
         nome_mat1.delete(0, END)
         ten_mat1.delete(0, END)
 
+
 #botao remover material na janela db de materiais
 def delete(id_entry,frame2,list_of_widgets):
     if not isInt(id_entry.get()):
@@ -109,9 +121,11 @@ def delete(id_entry,frame2,list_of_widgets):
         conn.commit()
         conn.close()
         id_entry.delete(0,END)
+
+
 #mostrar opcoes de tipo de tampo quando casco cilindrico for selecionado
 def show_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp):
-    tipotampo.grid(row=7,column=0,sticky="W")
+    tipotampo.grid(row=8,column=0,sticky="W")
     tp1.grid(row=8,column=1,sticky="W")
     tp2.grid(row=9,column=1,sticky="W")
     tp3.grid(row=10,column=1,sticky="W")
@@ -119,6 +133,8 @@ def show_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp):
     tp5.grid(row=12,column=1,sticky="W")
     tipo_mat_tp.grid(row=13,column=0,sticky='W')
     lista_mat_tp.grid(row=13,column=1,sticky='W')
+
+
 #esconder opcoes de tipo de tampo quando casco esferico for selecionado
 def hide_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp,ang_cone,ang_cone1):
     tipotampo.grid_forget()
@@ -131,10 +147,14 @@ def hide_tampo(tipotampo,tp1,tp2,tp3,tp4,tp5,tipo_mat_tp,lista_mat_tp,ang_cone,a
     lista_mat_tp.grid_forget()
     ang_cone.grid_forget()
     ang_cone1.grid_forget()
+
+
 #mostrar opcao de ang de cone dependendo da selecao
 def show_angcone(ang_cone,ang_cone1):
     ang_cone.grid(row=14,column=0,sticky='W')
     ang_cone1.grid(row=14,column=1,sticky='W')
+
+
 #esconder opcao de ang de cone dependendo da selecao
 def hide_angcone(ang_cone,ang_cone1):
     ang_cone.grid_forget()
