@@ -18,6 +18,28 @@ CREATE TABLE IF NOT EXISTS listamateriais (
 conn.commit()
 conn.close()
 
+
+#Criando Banco de Dados de Resultados
+conn = sqlite3.connect('resultados.db')
+cursor1 = conn.cursor()
+cursor1.execute("""
+CREATE TABLE IF NOT EXISTS vaso (
+nome text PRIMARY KEY,
+diam float,
+pre float,
+ejunta float,
+tcasco text,
+matcasco text,
+ttampo text,
+mattampo text,
+angcone float,
+espcasco float,
+esptampo float
+)
+""")
+conn.commit()
+conn.close()
+
 # Gerando a Interface Principal da Janela Principal
 
 root = Tk()
@@ -27,6 +49,7 @@ root.title("Programa Vaso de Pressão")
 MainMenu = Menu(root)
 filemenu = Menu(MainMenu, tearoff=0)
 filemenu.add_command(label="Editar database de materiais", command=mat_db_wdw)
+filemenu.add_command(label="Ver histórico de resultados")
 filemenu.add_separator()
 filemenu.add_command(label="Sair", command=root.destroy)
 MainMenu.add_cascade(label="Opções", menu=filemenu)

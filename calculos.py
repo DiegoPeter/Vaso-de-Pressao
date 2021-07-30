@@ -12,6 +12,7 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
     data_in = [["Característica", "Valor", "Unidade", ]]
     if not check_str_field(nome_proj1, "Nome do projeto"):
         return
+
     if not check_float_field(D1, "Diâmetro do casco"):
         return
     data_in.append(["Diâmetro do Casco", f"{D1.get()}", "mm", ])
@@ -105,7 +106,7 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
             messagebox.showinfo(
                 "Erro", "O valor da pressão de projeto excede aos limites da norma ASME.\nConsidere trocar de material")
 
-    data_out.append(["Espessura mínima do casco", f"{t_casco}", "mm", ])
+    data_out.append(["Espessura mínima do casco", f"{t_casco:.2f}", "mm", ])
 
     frame_res.grid(row=1, column=2, columnspan=2, rowspan=15, padx=10, pady=10)
 
@@ -119,7 +120,7 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
 
     if type_casco == 1:
 
-        data_out.append(["Espessura mínima do tampo", f"{t_tampo}", "mm", ])
+        data_out.append(["Espessura mínima do tampo", f"{t_tampo:.2f}", "mm", ])
         esp_tampo_label = Label(frame_res, text="Espessura do tampo:")
         esp_tampo_label.grid(row=2, column=2, sticky="W")
         list_of_res.append(esp_tampo_label)
