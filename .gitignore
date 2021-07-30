@@ -1003,3 +1003,4 @@ output/main3/unicodedata.pyd
 output/main3/VCRUNTIME140.dll
 *.pyc
 *.pyc
+*.db

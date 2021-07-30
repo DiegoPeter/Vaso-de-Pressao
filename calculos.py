@@ -90,7 +90,7 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
         esp_tampo_label = Label(frame_res, text="Espessura do tampo:")
         esp_tampo_label.grid(row=2, column=2, sticky="W")
 
-        esp_tampo_res = Label(frame_res, text=f'{t_tampo} mm')
+        esp_tampo_res = Label(frame_res, text=f'{t_tampo:.2f} mm')
         esp_tampo_res.grid(row=2, column=3, sticky="W")
 
     nome = nome_proj1.get()
