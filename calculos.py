@@ -82,11 +82,13 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
         else:
             messagebox.showinfo(
                 "Erro", "O valor da pressão de projeto excede aos limites da norma ASME.\nConsidere trocar de material")
+            return
         if P <= 1.25*S*E:
             tlong = (P*R)/(2*S*E + 0.4*P)
         else:
             messagebox.showinfo(
                 "Erro", "O valor da pressão de projeto excede aos limites da norma ASME.\nConsidere trocar de material")
+            return
         t_casco = max(tcircunf, tlong)
         if type_tampo == 1:
             t_tampo = (P*D)/(2*S1*E - 0.2*P)
@@ -105,6 +107,7 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
         else:
             messagebox.showinfo(
                 "Erro", "O valor da pressão de projeto excede aos limites da norma ASME.\nConsidere trocar de material")
+            return
 
     data_out.append(["Espessura mínima do casco", f"{t_casco:.2f}", "mm", ])
 
@@ -132,5 +135,5 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
     nome = nome_proj1.get()
     pdf_button = Button(root, text="Gerar PDF", command=lambda: create_pdf(
         nome, data_in, data_out))
-    pdf_button.grid(row=15, column=2, columnspan=2, ipadx=100, pady=10)
+    pdf_button.grid(row=15, column=2, columnspan=2, ipadx=100, pady=10,padx=10)
     list_of_res.append(pdf_button)
