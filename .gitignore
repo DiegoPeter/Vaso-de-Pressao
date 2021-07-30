@@ -1001,3 +1001,5 @@ output/main3/tk/xmfbox.tcl
 output/main3/tk86t.dll
 output/main3/unicodedata.pyd
 output/main3/VCRUNTIME140.dll
+*.pyc
+*.pyc

@@ -50,21 +50,17 @@ def get_valor(nome):
     cursor1 = conn.cursor()
     cursor1.execute(
         f"SELECT tensao_adm FROM listamateriais WHERE nome_mat='{nome.get()}'")
-    ret = cursor1.fetchall()[0]
+    ret = cursor1.fetchall()
     conn.commit()
     conn.close()
-    return ret[0]
+    if len(ret)!=1:
+        return None
+    return ret[0][0]
 
 
 # botao adicionar material na janela do db de materiais
 def submit(ten_mat1, nome_mat1, frame2, list_of_widgets):
-
-    if not isfloat(ten_mat1.get()):
-        messagebox.showinfo("Erro", "O campo de tensão tem que ser um número")
-        ten_mat1.delete(0, END)
-    elif len(nome_mat1.get()) == 0 or len(ten_mat1.get()) == 0:
-        messagebox.showinfo("Erro", "Um dos campos está vazio")
-    else:
+    if check_str_field(nome_mat1, "Nome do material") and check_float_field(ten_mat1, "Tensão admissível do material"):
         conn = sqlite3.connect('materiais.db')
         cursor1 = conn.cursor()
         cursor1.execute("SELECT *, oid FROM listamateriais")
@@ -101,12 +97,7 @@ def submit(ten_mat1, nome_mat1, frame2, list_of_widgets):
 
 # botao remover material na janela db de materiais
 def delete(id_entry, frame2, list_of_widgets):
-    if not isInt(id_entry.get()):
-        messagebox.showinfo("Erro", "O campo de ID tem que ser um número")
-        id_entry.delete(0, END)
-    elif len(id_entry.get()) == 0:
-        messagebox.showinfo("Erro", "Um dos campos está vazio")
-    else:
+    if check_int_field(id_entry, "O ID"):
         conn = sqlite3.connect('materiais.db')
         cursor1 = conn.cursor()
         cursor1.execute("DELETE from listamateriais WHERE oid= :id_entry", {
@@ -163,3 +154,52 @@ def show_angcone(ang_cone, ang_cone1):
 def hide_angcone(ang_cone, ang_cone1):
     ang_cone.grid_forget()
     ang_cone1.grid_forget()
+
+
+# checagem de campos float vazios
+def check_float_field(field, nome):
+    if len(field.get()) == 0:
+        messagebox.showinfo("Erro", f"{nome} está vazio")
+        return False
+    elif not isfloat(field.get()):
+        messagebox.showinfo("Erro", f"{nome} tem que ser um número")
+        field.delete(0, END)
+        return False
+    return True
+
+
+# checagem de campos str vazios
+def check_str_field(field, nome):
+    if len(field.get()) == 0:
+        messagebox.showinfo("Erro", f"{nome} está vazio")
+        return False
+    return True
+
+
+# checagem de campos int vazios
+def check_int_field(field, nome):
+    if len(field.get()) == 0:
+        messagebox.showinfo("Erro", f"{nome} está vazio")
+        return False
+    elif not isInt(field.get()):
+        messagebox.showinfo("Erro", f"{nome} tem que ser um número")
+        field.delete(0, END)
+        return False
+    return True
+
+
+# checagem de radiobts
+def check_radio_field(field, nome, min, max):
+    if field.get() < min or field.get() > max:
+        messagebox.showinfo("Erro", f"{nome} está vazio")
+        return False
+    return True
+
+
+
+# check mat field
+def check_mat_field(field,nome):
+    if get_valor(field)==None:
+        messagebox.showinfo("Erro", f"{nome} está vazio")
+        return False
+    return True

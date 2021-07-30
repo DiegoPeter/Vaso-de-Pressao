@@ -1,11 +1,31 @@
 import math
 from tkinter import *
-from funcoesgui import get_valor
+from funcoesgui import check_float_field, check_mat_field, check_radio_field, check_str_field, get_valor
 from tkinter import messagebox
 from create_pdf import create_pdf
 
 
 def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tampo, ang_cone1, root, nome_proj1):
+    if not check_str_field(nome_proj1, "Nome do projeto"):
+        return
+    if not check_float_field(D1, "Diâmetro do casco"):
+        return
+    if not check_float_field(pre_proj1, "Pressão de projeto"):
+        return
+    if not check_float_field(ejunta1, "Eficiência de junta"):
+        return
+    if not check_radio_field(casco, "Tipo de casco", 1, 2):
+        return
+    if not check_mat_field(lista_mat_casco, "Material do casco"):
+        return
+    if casco.get() == 1:
+        if not check_radio_field(tampo, "Tipo de tampo", 1, 5):
+            return
+        if not check_mat_field(lista_mat_tp, "Material do tampo"):
+            return
+        if tampo.get() > 3:
+            if not check_float_field(ang_cone1, "Ângulo de cone"):
+                return
 
     frame_res = LabelFrame(root, text="Resultados")
 
@@ -63,14 +83,15 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
     esp_casco_label = Label(frame_res, text="Espessura do casco:")
     esp_casco_label.grid(row=1, column=2, sticky="W")
 
-    esp_casco_res = Label(frame_res, text=f'{t_casco} mm')
+    esp_casco_res = Label(frame_res, text=f'{t_casco:.2f} mm')
     esp_casco_res.grid(row=1, column=3, sticky="W")
 
-    esp_tampo_label = Label(frame_res, text="Espessura do tampo:")
-    esp_tampo_label.grid(row=2, column=2, sticky="W")
+    if type_casco == 1:
+        esp_tampo_label = Label(frame_res, text="Espessura do tampo:")
+        esp_tampo_label.grid(row=2, column=2, sticky="W")
 
-    esp_tampo_res = Label(frame_res, text=f'{t_tampo} mm')
-    esp_tampo_res.grid(row=2, column=3, sticky="W")
+        esp_tampo_res = Label(frame_res, text=f'{t_tampo} mm')
+        esp_tampo_res.grid(row=2, column=3, sticky="W")
 
     nome = nome_proj1.get()
     pdf_button = Button(root, text="Gerar PDF", command=lambda: create_pdf(
