@@ -28,11 +28,11 @@ def mat_db_wdw():
 
     add_btn = Button(mat_db, text="Adicionar material", command=lambda: submit(
         ten_mat1, nome_mat1, frame2, list_of_widgets))
-    add_btn.grid(row=3, columnspan=2, ipadx=100,pady=10)
+    add_btn.grid(row=3, columnspan=2, ipadx=100, pady=10)
 
     rem_btn = Button(mat_db, text="Remover material",
                      command=lambda: delete(id_entry, frame2, list_of_widgets))
-    rem_btn.grid(row=5, columnspan=2, ipadx=100,pady=10)
+    rem_btn.grid(row=5, columnspan=2, ipadx=100, pady=10)
 
     mat_name = Label(frame2, text="Nome")
     mat_name.grid(row=1, column=2, sticky="W")

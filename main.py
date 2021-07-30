@@ -111,8 +111,10 @@ lista_mat_tp = ttk.Combobox(
 lista_mat_tp.set("Escolha uma opção")
 
 calc1 = Button(root, text="Calcular", command=lambda: calculate(casco, pre_proj1,
-               ejunta1, D1, lista_mat_casco, lista_mat_tp, tampo, ang_cone1, root, nome_proj1))
+               ejunta1, D1, lista_mat_casco, lista_mat_tp, tampo, ang_cone1, root, nome_proj1, list_of_res))
 calc1.grid(row=15, columnspan=2, ipadx=100, pady=10)
+
+list_of_res = []
 
 root.config(menu=MainMenu)
 root.mainloop()
