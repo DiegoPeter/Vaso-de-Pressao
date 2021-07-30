@@ -116,6 +116,3 @@ calc1.grid(row=15, columnspan=2, ipadx=100, pady=10)
 
 root.config(menu=MainMenu)
 root.mainloop()
-
-
-##################
