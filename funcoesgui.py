@@ -53,7 +53,7 @@ def get_valor(nome):
     ret = cursor1.fetchall()
     conn.commit()
     conn.close()
-    if len(ret)!=1:
+    if len(ret) != 1:
         return None
     return ret[0][0]
 
@@ -196,10 +196,9 @@ def check_radio_field(field, nome, min, max):
     return True
 
 
-
 # check mat field
-def check_mat_field(field,nome):
-    if get_valor(field)==None:
+def check_mat_field(field, nome):
+    if get_valor(field) == None:
         messagebox.showinfo("Erro", f"{nome} está vazio")
         return False
     return True
