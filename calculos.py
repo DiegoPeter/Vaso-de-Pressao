@@ -145,26 +145,27 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
         nomecasco = "Cilíndrico"
         if type_tampo == 1:
             nometampo = "Elipsóidal 2:1"
-            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
             ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
-            x.save()
         elif type_tampo == 2:
             nometampo = "Toro Esférico"
-            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
             ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
-            x.save()
         elif type_tampo == 3:
             nometampo = "Hemisférico"
-            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
             ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
-            x.save()
         elif type_tampo == 4:
             nometampo = "Cônico"
-            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
             ), nometampo, lista_mat_tp.get(), ang_cone1.get(), t_tampo, t_casco)
-            x.save()
         else:
             nometampo = "Toro Cônico"
-            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
             ), nometampo, lista_mat_tp.get(), ang_cone1.get(), t_tampo, t_casco)
-            x.save()
+    else:
+        nomecasco = "Esférico"
+        x = resultados(nome, D, P, E, nomecasco, lista_mat_casco.get(
+        ), None, None, None, None, t_casco)
+
+    x.save()
