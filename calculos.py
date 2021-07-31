@@ -3,6 +3,7 @@ from tkinter import *
 from funcoesgui import check_float_field, check_mat_field, check_radio_field, check_str_field, get_valor, clearGrid
 from tkinter import messagebox
 from create_pdf import create_pdf
+from res import resultados
 
 
 def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tampo, ang_cone1, root, nome_proj1, list_of_res):
@@ -123,7 +124,8 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
 
     if type_casco == 1:
 
-        data_out.append(["Espessura mínima do tampo", f"{t_tampo:.2f}", "mm", ])
+        data_out.append(["Espessura mínima do tampo",
+                        f"{t_tampo:.2f}", "mm", ])
         esp_tampo_label = Label(frame_res, text="Espessura do tampo:")
         esp_tampo_label.grid(row=2, column=2, sticky="W")
         list_of_res.append(esp_tampo_label)
@@ -135,5 +137,34 @@ def calculate(casco, pre_proj1, ejunta1, D1, lista_mat_casco, lista_mat_tp, tamp
     nome = nome_proj1.get()
     pdf_button = Button(root, text="Gerar PDF", command=lambda: create_pdf(
         nome, data_in, data_out))
-    pdf_button.grid(row=15, column=2, columnspan=2, ipadx=100, pady=10,padx=10)
+    pdf_button.grid(row=15, column=2, columnspan=2,
+                    ipadx=100, pady=10, padx=10)
     list_of_res.append(pdf_button)
+
+    if type_casco == 1:
+        nomecasco = "Cilíndrico"
+        if type_tampo == 1:
+            nometampo = "Elipsóidal 2:1"
+            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
+            x.save()
+        elif type_tampo == 2:
+            nometampo = "Toro Esférico"
+            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
+            x.save()
+        elif type_tampo == 3:
+            nometampo = "Hemisférico"
+            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            ), nometampo, lista_mat_tp.get(), None, t_tampo, t_casco)
+            x.save()
+        elif type_tampo == 4:
+            nometampo = "Cônico"
+            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            ), nometampo, lista_mat_tp.get(), ang_cone1.get(), t_tampo, t_casco)
+            x.save()
+        else:
+            nometampo = "Toro Cônico"
+            x = resultados(nome_proj1, D, P, E, nomecasco, lista_mat_casco.get(
+            ), nometampo, lista_mat_tp.get(), ang_cone1.get(), t_tampo, t_casco)
+            x.save()

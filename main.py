@@ -19,7 +19,7 @@ conn.commit()
 conn.close()
 
 
-#Criando Banco de Dados de Resultados
+# Criando Banco de Dados de Resultados
 conn = sqlite3.connect('resultados.db')
 cursor1 = conn.cursor()
 cursor1.execute("""
