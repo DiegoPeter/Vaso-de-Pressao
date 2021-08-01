@@ -1,13 +1,14 @@
 from tkinter import *
 import sqlite3
 from tkinter import messagebox
+from funcoesgui import delete_res
 
 
 def red_db_wdw():
     res_db = Toplevel()
 
     frame_res = LabelFrame(res_db, text='Histórico de Projetos')
-    frame_res.grid(row=0, column=0, pady=10, padx=10)
+    frame_res.grid(row=0, columnspan=12, pady=10, padx=10)
 
     nome = Label(frame_res, text='Nome do Vaso')
     nome.grid(row=0, column=0)
@@ -60,3 +61,16 @@ def red_db_wdw():
             res1.grid(row=i, column=j)
             lista_res.append(res1)
         i += 1
+
+    identry_lb = Label(res_db, text="ID:")
+    identry_lb.grid(row=10, column=0)
+
+    identry = Entry(res_db)
+    identry.grid(row=10, column=1)
+
+    rmv_btn = Button(res_db, text='Remover Vaso', command=lambda: delete_res(
+        identry, frame_res, lista_res))
+    rmv_btn.grid(row=10, column=2, ipadx=100, pady=10)
+
+    pdf_btn = Button(res_db, text="Gerar PDF")
+    pdf_btn.grid(row=10, column=3, ipadx=100, pady=10)

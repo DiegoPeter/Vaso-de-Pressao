@@ -202,3 +202,26 @@ def check_mat_field(field, nome):
         messagebox.showinfo("Erro", f"{nome} está vazio")
         return False
     return True
+
+
+# delete from resdb
+def delete_res(id_entry, frame, lista):
+    if check_int_field(id_entry, "O ID"):
+        conn = sqlite3.connect('resultados.db')
+        cursor1 = conn.cursor()
+        cursor1.execute("DELETE from vaso WHERE oid= :id_entry", {
+            'id_entry': id_entry.get()
+        })
+        cursor1.execute("SELECT *, oid FROM vaso")
+        records = cursor1.fetchall()
+        i = 1
+        clearGrid(lista)
+        for listares in records:
+            for j in range(len(listares)):
+                e = Label(frame, text=listares[j])
+                e.grid(row=i, column=j)
+                lista.append(e)
+            i += 1
+        conn.commit()
+        conn.close()
+        id_entry.delete(0, END)
