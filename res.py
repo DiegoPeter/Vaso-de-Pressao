@@ -1,4 +1,5 @@
 import sqlite3
+from tkinter import messagebox
 
 
 class resultados:
@@ -30,20 +31,42 @@ class resultados:
     def save(self):
         conn = sqlite3.connect('resultados.db')
         cursor1 = conn.cursor()
-        cursor1.execute("INSERT OR IGNORE INTO vaso VALUES (:nome, :diam, :pre, :ejunta, :tcasco, :matcasco,:ttampo, :mattampo, :angcone, :espcasco, :esptampo)",
-                        {
-                            "nome": self.nome,
-                            "diam": self.diam,
-                            "pre": self.pre,
-                            "ejunta": self.ejunta,
-                            "tcasco": self.tcasco,
-                            "matcasco": self.matcasco,
-                            "mattampo": self.mattampo,
-                            "ttampo": self.ttampo,
-                            "angcone": self.angcone,
-                            "espcasco": self.espcasco,
-                            "esptampo": self.esptampo,
-                        }
-                        )
+        cursor1.execute("SELECT *, oid FROM vaso")
+        records = cursor1.fetchall()
+        shouldInsert = True
+        for record in records:
+            if record[0] == self.nome:
+                aux = messagebox.askquestion(
+                    "Erro", "Já existe um projeto com este nome.\nDeseja sobreescrever?")
+                if aux == 'no':
+                    shouldInsert = False
+        if shouldInsert:
+            cursor1.execute("""INSERT INTO vaso VALUES (:nome, :diam, :pre, :ejunta, :tcasco, :matcasco,:ttampo, :mattampo, :angcone, :espcasco, :esptampo) ON CONFLICT(nome) 
+            DO UPDATE SET 
+            nome=self.nome, 
+            diam=self.diam, 
+            pre= self.pre, 
+            ejunta=self.ejunta, 
+            tcasco=self.tcasco, 
+            matcasco=self.matcasco,
+            mattampo=self.mattampo,
+            ttampo=self.ttampo,
+            angcone=self.angcone,
+            espcasco=self.espcasco,
+            esptampo=self.esptampo""",
+                            {
+                                "nome": self.nome,
+                                "diam": self.diam,
+                                "pre": self.pre,
+                                "ejunta": self.ejunta,
+                                "tcasco": self.tcasco,
+                                "matcasco": self.matcasco,
+                                "mattampo": self.mattampo,
+                                "ttampo": self.ttampo,
+                                "angcone": self.angcone,
+                                "espcasco": self.espcasco,
+                                "esptampo": self.esptampo,
+                            }
+                            )
         conn.commit()
         conn.close()
