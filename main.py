@@ -4,6 +4,7 @@ from tkinter import ttk
 from funcoesgui import update_cblist, show_tampo, hide_tampo, show_angcone, hide_angcone
 from matdb import mat_db_wdw
 from calculos import calculate
+from resdb import red_db_wdw
 
 # Criando Banco de Dados de Materiais
 
@@ -49,7 +50,7 @@ root.title("Programa Vaso de Pressão")
 MainMenu = Menu(root)
 filemenu = Menu(MainMenu, tearoff=0)
 filemenu.add_command(label="Editar database de materiais", command=mat_db_wdw)
-filemenu.add_command(label="Ver histórico de resultados")
+filemenu.add_command(label="Ver histórico de resultados", command=red_db_wdw)
 filemenu.add_separator()
 filemenu.add_command(label="Sair", command=root.destroy)
 MainMenu.add_cascade(label="Opções", menu=filemenu)
