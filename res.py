@@ -43,17 +43,17 @@ class resultados:
         if shouldInsert:
             cursor1.execute("""INSERT INTO vaso VALUES (:nome, :diam, :pre, :ejunta, :tcasco, :matcasco,:ttampo, :mattampo, :angcone, :espcasco, :esptampo) ON CONFLICT(nome) 
             DO UPDATE SET 
-            nome=self.nome, 
-            diam=self.diam, 
-            pre= self.pre, 
-            ejunta=self.ejunta, 
-            tcasco=self.tcasco, 
-            matcasco=self.matcasco,
-            mattampo=self.mattampo,
-            ttampo=self.ttampo,
-            angcone=self.angcone,
-            espcasco=self.espcasco,
-            esptampo=self.esptampo""",
+            nome=excluded.nome, 
+            diam=excluded.diam, 
+            pre= excluded.pre, 
+            ejunta=excluded.ejunta, 
+            tcasco=excluded.tcasco, 
+            matcasco=excluded.matcasco,
+            mattampo=excluded.mattampo,
+            ttampo=excluded.ttampo,
+            angcone=excluded.angcone,
+            espcasco=excluded.espcasco,
+            esptampo=excluded.esptampo""",
                             {
                                 "nome": self.nome,
                                 "diam": self.diam,
