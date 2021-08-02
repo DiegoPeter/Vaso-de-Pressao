@@ -1,7 +1,7 @@
 from tkinter import *
 import sqlite3
 from tkinter import messagebox
-
+from create_pdf import create_pdf
 # Limpar lista de materiais da janela do db de materiais
 
 
@@ -13,11 +13,13 @@ def clearGrid(list_of_widgets):
 # Checar se é Float
 def isfloat(var):
     funciona = False
-    try:
-        float(var)
-        funciona = True
-    except ValueError:
-        funciona = False
+    if var != None:
+        try:
+            float(var)
+            funciona = True
+        except ValueError:
+            funciona = False
+        return funciona
     return funciona
 
 
@@ -225,3 +227,52 @@ def delete_res(id_entry, frame, lista):
         conn.commit()
         conn.close()
         id_entry.delete(0, END)
+
+
+# pdf res
+def pdf_res(id_entry):
+    print_config = [[],
+                    ["Diâmetro do Casco", "mm"],
+                    ["Pressão de Projeto", "MPa"],
+                    ["Eficiência de Junta", "-"],
+                    ["Tipo de Casco", "-"],
+                    ["Material do Casco", "-"],
+                    ["Tipo de Tampo", "-"],
+                    ["Material do Tampo", "-"],
+                    ["Ângulo de Cone", "Graus"],
+                    ["Espessura mínima do tampo", "mm"],
+                    ["Espessura mínima do casco", "mm"]
+                    ]
+    if check_int_field(id_entry, "O ID"):
+        data_in = [["Característica", "Valor", "Unidade", ]]
+        data_out = [["Característica", "Valor", "Unidade", ]]
+        conn2 = sqlite3.connect('resultados.db')
+        cursor2 = conn2.cursor()
+        cursor2.execute("SELECT * from vaso WHERE oid= :id_entry", {
+            'id_entry': id_entry.get()
+        })
+        records = cursor2.fetchall()
+        conn2.commit()
+        conn2.close()
+        nome = records[0][0]
+        for i in range(1, 8):
+            carac = print_config[i][0]
+            parametro = records[0][i]
+            if parametro == None:
+                parametro="-"
+            else:
+                if isfloat(parametro):
+                    parametro = str(parametro)
+            unid = print_config[i][1]
+            data_in.append([carac, parametro, unid])
+        for i in range(9, 11):
+            carac = print_config[i][0]
+            parametro = records[0][i]
+            if parametro== None:
+                parametro="-"
+            else:
+                if isfloat(parametro):
+                    parametro = str(parametro)
+            unid = print_config[i][1]
+            data_out.append([carac, parametro, unid])
+        create_pdf(nome, data_in, data_out)

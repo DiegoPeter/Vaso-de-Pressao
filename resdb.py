@@ -1,7 +1,7 @@
 from tkinter import *
 import sqlite3
 from tkinter import messagebox
-from funcoesgui import delete_res
+from funcoesgui import delete_res, pdf_res
 
 
 def red_db_wdw():
@@ -72,5 +72,6 @@ def red_db_wdw():
         identry, frame_res, lista_res))
     rmv_btn.grid(row=10, column=2, ipadx=100, pady=10)
 
-    pdf_btn = Button(res_db, text="Gerar PDF")
+    pdf_btn = Button(res_db, text="Gerar PDF",
+                     command=lambda: pdf_res(identry))
     pdf_btn.grid(row=10, column=3, ipadx=100, pady=10)

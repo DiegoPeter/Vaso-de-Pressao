@@ -38,21 +38,6 @@ espcasco float,
 esptampo float
 )
 """)
-cursor1.execute("""CREATE TABLE IF NOT EXISTS data_in(
-nome text PRIMARY KEY,
-diam float,
-pre float,
-ejunta float,
-tcasco text,
-matcasco text,
-angcone float
-)
-""")
-cursor1.execute("""CREATE TABLE IF NOT EXISTS data_out(
-esptampo float,
-espcasco float
-)
-""")
 conn.commit()
 conn.close()
 
