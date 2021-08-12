@@ -2,6 +2,20 @@ from tkinter import *
 import sqlite3
 from funcoesgui import submit, delete
 
+# Criando Banco de Dados de Materiais
+
+conn = sqlite3.connect('materiais.db')
+cursor1 = conn.cursor()
+cursor1.execute("""
+CREATE TABLE IF NOT EXISTS listamateriais (
+  nome_mat text PRIMARY KEY,
+  tensao_adm float
+)
+""")
+conn.commit()
+conn.close()
+
+
 
 def mat_db_wdw():
     mat_db = Toplevel()

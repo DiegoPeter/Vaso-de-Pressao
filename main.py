@@ -6,41 +6,6 @@ from matdb import mat_db_wdw
 from calculos import calculate
 from resdb import red_db_wdw
 
-# Criando Banco de Dados de Materiais
-
-conn = sqlite3.connect('materiais.db')
-cursor1 = conn.cursor()
-cursor1.execute("""
-CREATE TABLE IF NOT EXISTS listamateriais (
-  nome_mat text PRIMARY KEY,
-  tensao_adm float
-)
-""")
-conn.commit()
-conn.close()
-
-
-# Criando Banco de Dados de Resultados
-conn = sqlite3.connect('resultados.db')
-cursor1 = conn.cursor()
-cursor1.execute("""
-CREATE TABLE IF NOT EXISTS vaso (
-nome text PRIMARY KEY,
-diam float,
-pre float,
-ejunta float,
-tcasco text,
-matcasco text,
-ttampo text,
-mattampo text,
-angcone float,
-espcasco float,
-esptampo float
-)
-""")
-conn.commit()
-conn.close()
-
 # Gerando a Interface Principal da Janela Principal
 
 root = Tk()

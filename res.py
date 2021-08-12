@@ -1,6 +1,27 @@
 import sqlite3
 from tkinter import messagebox
 
+# Criando Banco de Dados de Resultados
+conn = sqlite3.connect('resultados.db')
+cursor1 = conn.cursor()
+cursor1.execute("""
+CREATE TABLE IF NOT EXISTS vaso (
+nome text PRIMARY KEY,
+diam float,
+pre float,
+ejunta float,
+tcasco text,
+matcasco text,
+ttampo text,
+mattampo text,
+angcone float,
+espcasco float,
+esptampo float
+)
+""")
+conn.commit()
+conn.close()
+
 
 class resultados:
     def __init__(self, nome, diam, pre, ejunta, tcasco, matcasco, ttampo=None, mattampo=None, angcone=None, espcasco=None, esptampo=None):
