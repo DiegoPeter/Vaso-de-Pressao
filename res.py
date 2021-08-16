@@ -1,93 +1,72 @@
 import sqlite3
 from tkinter import messagebox
 
-# Criando Banco de Dados de Resultados
-conn = sqlite3.connect('resultados.db')
-cursor1 = conn.cursor()
-cursor1.execute("""
-CREATE TABLE IF NOT EXISTS vaso (
-nome text PRIMARY KEY,
-diam float,
-pre float,
-ejunta float,
-tcasco text,
-matcasco text,
-ttampo text,
-mattampo text,
-angcone float,
-espcasco float,
-esptampo float
-)
-""")
-conn.commit()
-conn.close()
 
-
-class resultados:
-    def __init__(self, nome, diam, pre, ejunta, tcasco, matcasco, ttampo=None, mattampo=None, angcone=None, espcasco=None, esptampo=None):
-        self.nome = nome
+class results:
+    def __init__(self, name, diam, pre, weld_eff, shell_type, shell_mat, head_type=None, head_mat=None, cone_angle=None, shell_thick=None, head_thick=None):
+        self.name = name
         self.diam = diam
         self.pre = pre
-        self.ejunta = ejunta
-        self.tcasco = tcasco
-        self.matcasco = matcasco
-        self.mattampo = mattampo
-        self.ttampo = ttampo
-        self.angcone = angcone
-        self.espcasco = espcasco
-        self.esptampo = esptampo
+        self.weld_eff = weld_eff
+        self.shell_type = shell_type
+        self.shell_mat = shell_mat
+        self.head_mat = head_mat
+        self.head_type = head_type
+        self.cone_angle = cone_angle
+        self.shell_thick = shell_thick
+        self.head_thick = head_thick
 
-    def load_from_nome(nome):
-        conn = sqlite3.connect('resultados.db')
-        cursor1 = conn.cursor()
-        cursor1.execute(f"SELECT *, oid FROM vaso WHERE nome=\"{nome}\"")
-        records = cursor1.fetchall()
+    def load_from_nome(name):
+        conn = sqlite3.connect('storage.db')
+        c = conn.cursor()
+        c.execute(f"SELECT *, oid FROM results WHERE nome=\"{name}\"")
+        records = c.fetchall()
         if len(records) == 1:
             record = records[0]
-            return resultados(nome=record[0], diam=record[1], pre=record[2], ejunta=record[3], tcasco=record[4], matcasco=record[5], ttampo=record[6], mattampo=record[7], angcone=record[8], espcasco=record[9], esptampo=record[10])
+            return results(record[0], record[1], record[2], record[3], record[4], record[5], record[6], record[7], record[8], record[9], record[10])
         conn.commit()
         conn.close()
         return None
 
     def save(self):
-        conn = sqlite3.connect('resultados.db')
-        cursor1 = conn.cursor()
-        cursor1.execute("SELECT *, oid FROM vaso")
-        records = cursor1.fetchall()
+        conn = sqlite3.connect('storage.db')
+        c = conn.cursor()
+        c.execute("SELECT *, oid FROM results")
+        records = c.fetchall()
         shouldInsert = True
         for record in records:
-            if record[0] == self.nome:
+            if record[0] == self.name:
                 aux = messagebox.askquestion(
                     "Erro", "Já existe um projeto com este nome.\nDeseja sobreescrever?")
                 if aux == 'no':
                     shouldInsert = False
         if shouldInsert:
-            cursor1.execute("""INSERT INTO vaso VALUES (:nome, :diam, :pre, :ejunta, :tcasco, :matcasco,:ttampo, :mattampo, :angcone, :espcasco, :esptampo) ON CONFLICT(nome) 
+            c.execute("""INSERT INTO results VALUES (:name, :diameter, :pressure, :weld_eff, :shell_type, :shell_mat,:head_type, :head_mat, :cone_angle, :shell_thick, :head_thick) ON CONFLICT(name) 
             DO UPDATE SET 
-            nome=excluded.nome, 
-            diam=excluded.diam, 
-            pre= excluded.pre, 
-            ejunta=excluded.ejunta, 
-            tcasco=excluded.tcasco, 
-            matcasco=excluded.matcasco,
-            mattampo=excluded.mattampo,
-            ttampo=excluded.ttampo,
-            angcone=excluded.angcone,
-            espcasco=excluded.espcasco,
-            esptampo=excluded.esptampo""",
-                            {
-                                "nome": self.nome,
-                                "diam": self.diam,
-                                "pre": self.pre,
-                                "ejunta": self.ejunta,
-                                "tcasco": self.tcasco,
-                                "matcasco": self.matcasco,
-                                "mattampo": self.mattampo,
-                                "ttampo": self.ttampo,
-                                "angcone": self.angcone,
-                                "espcasco": self.espcasco,
-                                "esptampo": self.esptampo,
-                            }
-                            )
+            name=excluded.name, 
+            diameter=excluded.diameter, 
+            pressure= excluded.pressure, 
+            weld_eff=excluded.weld_eff, 
+            shell_type=excluded.shell_type, 
+            shell_mat=excluded.shell_mat,
+            head_mat=excluded.head_mat,
+            head_type=excluded.head_type,
+            cone_angle=excluded.cone_angle,
+            shell_thick=excluded.shell_thick,
+            head_thick=excluded.head_thick""",
+                      {
+                          "name": self.name,
+                          "diameter": self.diam,
+                          "pressure": self.pre,
+                          "weld_eff": self.weld_eff,
+                          "shell_type": self.shell_type,
+                          "shell_mat": self.shell_mat,
+                          "head_mat": self.head_mat,
+                          "head_type": self.head_type,
+                          "cone_angle": self.cone_angle,
+                          "shell_thick": self.shell_thick,
+                          "head_thick": self.head_thick,
+                      }
+                      )
         conn.commit()
         conn.close()

@@ -1,79 +1,55 @@
 from tkinter import *
 import sqlite3
-from funcoesgui import submit, delete
-
-# Criando Banco de Dados de Materiais
-
-conn = sqlite3.connect('materiais.db')
-cursor1 = conn.cursor()
-cursor1.execute("""
-CREATE TABLE IF NOT EXISTS listamateriais (
-  nome_mat text PRIMARY KEY,
-  tensao_adm float
-)
-""")
-conn.commit()
-conn.close()
-
+from GUI import *
 
 
 def mat_db_wdw():
     mat_db = Toplevel()
 
-    frame2 = LabelFrame(mat_db, text="Lista de Materiais")
-    frame2.grid(row=1, column=2, padx=10, pady=10, rowspan=15)
+    mat_frame = create_LabelFrame(
+        mat_db, "Lista de Materiais", rowint=1, columnint=2, padxint=10, padyint=10, rowspanint=15)
 
-    nome_db = Label(mat_db, text="Database de Materiais")
-    nome_db.grid(row=0, columnspan=4)
+    db_name = create_Label(
+        mat_db, "Database de Materiais", rowint=0, columnspanint=4)
 
-    nome_mat = Label(mat_db, text="Nome do material:")
-    nome_mat.grid(row=1, column=0, sticky="W")
+    mat_name_label = create_Label(
+        mat_db, "Nome do material:", 1, 0, stickystr='W')
 
-    nome_mat1 = Entry(mat_db)
-    nome_mat1.grid(row=1, column=1, sticky="W")
+    mat_name_entry = create_Entry(mat_db, 1, 1, stickystr='W')
 
-    ten_mat = Label(mat_db, text="Tensão Admissível do Material(MPa):")
-    ten_mat.grid(row=2, column=0, sticky="W")
+    mat_ten_label = create_Label(
+        mat_db, "Tensão Admissível do Material(MPa):", 2, 0, stickystr='W')
 
-    ten_mat1 = Entry(mat_db)
-    ten_mat1.grid(row=2, column=1, sticky="W")
+    mat_ten_entry = create_Entry(mat_db, 2, 1, stickystr='W')
 
-    add_btn = Button(mat_db, text="Adicionar material", command=lambda: submit(
-        ten_mat1, nome_mat1, frame2, list_of_widgets))
-    add_btn.grid(row=3, columnspan=2, ipadx=100, pady=10)
+    add_button = create_Button(mat_db, "Adicionar Material", commandf=lambda: submit(
+        mat_ten_entry, mat_name_entry, mat_frame, list_of_widgets), rowint=3, columnspanint=2, ipadxint=100, padyint=10)
 
-    rem_btn = Button(mat_db, text="Remover material",
-                     command=lambda: delete(id_entry, frame2, list_of_widgets))
-    rem_btn.grid(row=5, columnspan=2, ipadx=100, pady=10)
+    remove_button = create_Button(mat_db, "Remover material", lambda: delete(
+        id_entry, mat_frame, list_of_widgets), 5, columnspanint=2, ipadxint=100, padyint=10)
 
-    mat_name = Label(frame2, text="Nome")
-    mat_name.grid(row=1, column=2, sticky="W")
+    mat_name = create_Label(mat_frame, "Nome", 1, 2, stickystr='W')
 
-    unit_name = Label(frame2, text="Valor(MPa)")
-    unit_name.grid(row=1, column=3, sticky="W")
+    unit_name = create_Label(mat_frame, "Valor(MPa)", 1, 3, stickystr='W')
 
-    id_name = Label(frame2, text="ID")
-    id_name.grid(row=1, column=4, sticky="W")
+    id_name = create_Label(mat_frame, "ID", 1, 4, stickystr='W')
 
-    id_box = Label(mat_db, text="ID: ")
-    id_box.grid(row=4, column=0, sticky="W")
+    id_box = create_Label(mat_db, "ID: ", 4, 0, stickystr='W')
 
-    id_entry = Entry(mat_db)
-    id_entry.grid(row=4, column=1, sticky="W")
+    id_entry = create_Entry(mat_db, 4, 1, stickystr='W')
 
     i = 2
     list_of_widgets = []
 
-    conn2 = sqlite3.connect('materiais.db')
-    cursor2 = conn2.cursor()
-    cursor2.execute("SELECT *, oid FROM listamateriais")
-    records = cursor2.fetchall()
-    conn2.commit()
-    conn2.close()
+    conn = sqlite3.connect('storage.db')
+    c = conn.cursor()
+    c.execute("SELECT *, oid FROM materials_list")
+    records = c.fetchall()
+    conn.commit()
+    conn.close()
 
-    for listamateriais in records:
-        for j in range(len(listamateriais)):
-            e = Label(frame2, text=listamateriais[j])
-            e.grid(row=i, column=j+2)
+    for materials in records:
+        for j in range(len(materials)):
+            e = create_Label(mat_frame, materials[j], i, j+2)
             list_of_widgets.append(e)
         i += 1

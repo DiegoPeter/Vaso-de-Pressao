@@ -1,77 +1,60 @@
 from tkinter import *
+from GUI import *
 import sqlite3
 from tkinter import messagebox
-from funcoesgui import delete_res, pdf_res
 
 
 def red_db_wdw():
     res_db = Toplevel()
 
-    frame_res = LabelFrame(res_db, text='Histórico de Projetos')
-    frame_res.grid(row=0, columnspan=12, pady=10, padx=10)
+    res_frame = create_LabelFrame(
+        res_db, 'Histórico de Projetos', 0, columnspanint=12, padyint=10, padxint=10)
 
-    nome = Label(frame_res, text='Nome do Vaso')
-    nome.grid(row=0, column=0)
+    name = create_Label(res_frame, 'Nome do Vaso', 0, 0)
 
-    diam = Label(frame_res, text='Diâmetro Interno')
-    diam.grid(row=0, column=1)
+    diam = create_Label(res_frame, 'Diâmetro Interno', 0, 1)
 
-    pre = Label(frame_res, text='Pressão de Projeto')
-    pre.grid(row=0, column=2)
+    pre = create_Label(res_frame, 'Pressão de Projeto', 0, 2)
 
-    ejunta = Label(frame_res, text='Eficiência de Junta')
-    ejunta.grid(row=0, column=3)
+    weld_eff = create_Label(res_frame, 'Eficiência de Junta', 0, 3)
 
-    tcasco = Label(frame_res, text='Tipo de Casco')
-    tcasco.grid(row=0, column=4)
+    shell_type = create_Label(res_frame, 'Tipo de Casco', 0, 4)
 
-    matcasco = Label(frame_res, text='Material do Casco')
-    matcasco.grid(row=0, column=5)
+    shell_mat = create_Label(res_frame, 'Material do Casco', 0, 5)
 
-    ttampo = Label(frame_res, text='Tipo de Tampo')
-    ttampo.grid(row=0, column=6)
+    head_type = create_Label(res_frame, 'Tipo de Tampo', 0, 6)
 
-    mattampo = Label(frame_res, text='Material do Tampo')
-    mattampo.grid(row=0, column=7)
+    head_mat = create_Label(res_frame, 'Material do Tampo', 0, 7)
 
-    angcone = Label(frame_res, text='Ângulo de Cone')
-    angcone.grid(row=0, column=8)
+    cone_angle = create_Label(res_frame, 'Ângulo de Cone', 0, 8)
 
-    espcasco = Label(frame_res, text='Espessura mínima do Casco')
-    espcasco.grid(row=0, column=9)
+    shell_thick = create_Label(res_frame, 'Espessura mínima do Casco', 0, 9)
 
-    esptampo = Label(frame_res, text='Espessura mínima do Tampo')
-    esptampo.grid(row=0, column=10)
+    head_thick = create_Label(res_frame, 'Espessura mínima do Tampo', 0, 10)
 
-    ID = Label(frame_res, text='ID')
-    ID.grid(row=0, column=11)
+    ID = create_Label(res_frame, 'ID', 0, 11)
 
     i = 1
-    lista_res = []
-    conn2 = sqlite3.connect('resultados.db')
-    cursor2 = conn2.cursor()
-    cursor2.execute("SELECT *, oid FROM vaso")
-    records = cursor2.fetchall()
-    conn2.commit()
-    conn2.close()
+    res_list = []
+    conn = sqlite3.connect('storage.db')
+    c = conn.cursor()
+    c.execute("SELECT *, oid FROM results")
+    records = c.fetchall()
+    conn.commit()
+    conn.close()
 
-    for listaresultados in records:
-        for j in range(len(listaresultados)):
-            res1 = Label(frame_res, text=listaresultados[j])
-            res1.grid(row=i, column=j)
-            lista_res.append(res1)
+    for results in records:
+        for j in range(len(results)):
+            res = create_Label(res_frame, results[j], i, j)
+            res_list.append(res)
         i += 1
 
-    identry_lb = Label(res_db, text="ID:")
-    identry_lb.grid(row=10, column=0)
+    identry_lb = create_Label(res_db, "ID:", 10, 0)
 
-    identry = Entry(res_db)
-    identry.grid(row=10, column=1)
+    identry = create_Entry(res_db, 10, 1)
 
-    rmv_btn = Button(res_db, text='Remover Vaso', command=lambda: delete_res(
-        identry, frame_res, lista_res))
-    rmv_btn.grid(row=10, column=2, ipadx=100, pady=10)
+    rmv_btn = create_Button(res_db, 'Remover Vaso', lambda: delete_res(
+        identry, res_frame, res_list), 10, 2, ipadxint=100, padyint=10)
 
-    pdf_btn = Button(res_db, text="Gerar PDF",
-                     command=lambda: pdf_res(identry))
-    pdf_btn.grid(row=10, column=3, ipadx=100, pady=10)
+    pdf_btn = create_Button(res_db, "Gerar PDF",
+                            lambda: pdf_res(identry), 10, 3, ipadxint=100, padyint=10)
