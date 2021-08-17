@@ -56,7 +56,8 @@ def calculate(shell, pre, weld_eff, diam, shell_mat, head_mat, head, cone_angle,
 
     data_out = [["Característica", "Valor", "Unidade", ]]
 
-    frame_res = LabelFrame(root, text="Resultados")
+    frame_res = root.create_LabelFrame("Resultados",1,2,2,padxint=10,padyint=10,rowspanint=15)
+
     list_of_res.append(frame_res)
 
     # Puxando os dados dos campos
@@ -114,30 +115,25 @@ def calculate(shell, pre, weld_eff, diam, shell_mat, head_mat, head, cone_angle,
     data_out.append(["Espessura mínima do casco",
                     f"{shell_thick:.2f}", "mm", ])
 
-    frame_res.grid(row=1, column=2, columnspan=2, rowspan=15, padx=10, pady=10)
 
-    shell_thick_label = create_Label(
-        frame_res, "Espessura do casco:", 1, 2, stickystr='W')
+    shell_thick_label = frame_res.create_Label( "Espessura do casco:", 1, 2, stickystr='W')
     list_of_res.append(shell_thick_label)
 
-    shell_thick_res = create_Label(
-        frame_res, f'{shell_thick:.2f} mm', 1, 3, stickystr='W')
+    shell_thick_res = frame_res.create_Label( f'{shell_thick:.2f} mm', 1, 3, stickystr='W')
     list_of_res.append(shell_thick_res)
 
     if shell_type == 1:
 
         data_out.append(["Espessura mínima do tampo",
                         f"{head_thick:.2f}", "mm", ])
-        head_thick_label = create_Label(
-            frame_res, "Espessura do tampo:", 2, 2, stickystr='W')
+        head_thick_label = frame_res.create_Label( "Espessura do tampo:", 2, 2, stickystr='W')
         list_of_res.append(head_thick_label)
 
-        head_thick_res = create_Label(
-            frame_res, f'{head_thick:.2f} mm', 2, 3, stickystr='W')
+        head_thick_res = frame_res.create_Label( f'{head_thick:.2f} mm', 2, 3, stickystr='W')
         list_of_res.append(head_thick_res)
 
     name = proj_name.get()
-    pdf_button = create_Button(root, "Gerar PDF", lambda: create_pdf(
+    pdf_button = root.create_Button("Gerar PDF", lambda: create_pdf(
         name, data_in, data_out), 15, 2, 2, ipadxint=100, padyint=10, padxint=10)
     list_of_res.append(pdf_button)
 

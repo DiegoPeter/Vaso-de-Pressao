@@ -3,56 +3,82 @@ from tkinter.ttk import Combobox
 from tkinter import messagebox
 from create_pdf import create_pdf
 import sqlite3
+from enum import Enum
 
 
-def create_Label(window, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
-    name = Label(window, text=textstr)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, pady=padyint)
-    return name
+
+class window_type(Enum):
+    main = 1
+    mat_db = 2
+    res_db = 3
+    frame = 4
 
 
-def create_LabelFrame(window, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True, rowspanint=None):
-    name = LabelFrame(window, text=textstr,)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, pady=padyint, rowspan=rowspanint)
-    return name
+class GUI():
 
+    def __init__(self, wdw_type, title=None, frame=None,mat_db_wdw=None,res_db_wdw=None) -> None:
+        if wdw_type == window_type.main:
+            self.window = Tk()
+            MainMenu = Menu(self.window)
+            filemenu = Menu(MainMenu, tearoff=0)
+            filemenu.add_command(
+                label="Editar database de materiais", command=mat_db_wdw)
+            filemenu.add_command(
+                label="Ver histórico de resultados", command=res_db_wdw)
+            filemenu.add_separator()
+            filemenu.add_command(label="Sair", command=self.window.destroy)
+            MainMenu.add_cascade(label="Opções", menu=filemenu)
+            self.window.config(menu=MainMenu)
+        elif wdw_type == window_type.frame:
+            self.window = frame
+        else:
+            self.window = Toplevel()
+        if title is not None:
+            self.window.title(title)
 
-def create_Entry(window, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
-    name = Entry(window)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, pady=padyint)
-    return name
+    def create_Label(self, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
+        name = Label(self.window, text=textstr)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint)
+        return name
 
+    def create_LabelFrame(self, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True, rowspanint=None):
+        name = LabelFrame(self.window, text=textstr,)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint, rowspan=rowspanint)
+        return GUI(window_type.frame, frame=name)
 
-def create_RadioButton(window, textstr, var, valueint, commandf=None, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
-    name = Radiobutton(window, text=textstr, variable=var,
-                       value=valueint, command=commandf)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, pady=padyint)
-    return name
+    def create_Entry(self, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
+        name = Entry(self.window)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint)
+        return name
 
+    def create_RadioButton(self, textstr, var, valueint, commandf=None, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
+        name = Radiobutton(self.window, text=textstr, variable=var,
+                           value=valueint, command=commandf)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint)
+        return name
 
-def create_Button(window, textstr, commandf=None, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True, ipadxint=None, ipadyint=None):
-    name = Button(window, text=textstr, command=commandf)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, pady=padyint, ipadx=ipadxint, ipady=ipadyint)
-    return name
+    def create_Button(self, textstr, commandf=None, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True, ipadxint=None, ipadyint=None):
+        name = Button(self.window, text=textstr, command=commandf)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint, ipadx=ipadxint, ipady=ipadyint)
+        return name
 
-
-def create_Combobox(window, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, postcommandf=None, show=True):
-    name = Combobox(window, postcommand=postcommandf)
-    name.set(textstr)
-    if show:
-        name.grid(row=rowint, column=columnint, columnspan=columnspanint,
-                  sticky=stickystr, padx=padxint, padyx=padyint)
-    return name
+    def create_Combobox(self, textstr, rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, postcommandf=None, show=True):
+        name = Combobox(self.window, postcommand=postcommandf)
+        name.set(textstr)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, padyx=padyint)
+        return name
 
 
 def update_cblist(material_type_combobox):
@@ -92,8 +118,7 @@ def submit(ten_mat1, nome_mat1, frame2, list_of_widgets):
         i = 2
         for listamateriais in records:
             for j in range(len(listamateriais)):
-                e = Label(frame2, text=listamateriais[j])
-                e.grid(row=i, column=j+2)
+                e = frame2.create_Label(listamateriais[j], i, j+2)
                 list_of_widgets.append(e)
             i += 1
         conn.commit()
@@ -116,8 +141,7 @@ def delete(id_entry, frame2, list_of_widgets):
         clearGrid(list_of_widgets)
         for listamateriais in records:
             for j in range(len(listamateriais)):
-                e = Label(frame2, text=listamateriais[j])
-                e.grid(row=i, column=j+2)
+                e = frame2.create_Label(listamateriais[j], i, j+2)
                 list_of_widgets.append(e)
             i += 1
         conn.commit()
@@ -220,8 +244,7 @@ def delete_res(id_entry, frame, list):
         clearGrid(list)
         for results in records:
             for j in range(len(results)):
-                e = Label(frame, text=results[j])
-                e.grid(row=i, column=j)
+                e = frame.create_Label(results[j], i, j+2)
                 list.append(e)
             i += 1
         conn.commit()
