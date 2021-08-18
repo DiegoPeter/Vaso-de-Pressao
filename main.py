@@ -19,11 +19,11 @@ if __name__ == '__main__':
     proj_name_input = input_frame.create_Entry(0, 1, stickystr='W')
 
     diam_label = input_frame.create_Label(
-        "Diâmetro Interno:", 1, 0, stickystr='W')
+        "Diâmetro Interno(mm):", 1, 0, stickystr='W')
     diam_input = input_frame.create_Entry(1, 1, stickystr='W')
 
     pressure_label = input_frame.create_Label(
-        "Pressão de Projeto:", 2, 0, stickystr='W')
+        "Pressão de Projeto(MPa):", 2, 0, stickystr='W')
     pressure_input = input_frame.create_Entry(2, 1, stickystr='W')
 
     weld_efficiency_label = input_frame.create_Label(
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         "150°", saddle_angle, 150, None, 9, 1)
 
     length_label = input_frame.create_Label(
-        "Comprimento do casco:", stickystr='W', show=False)
+        "Comprimento do casco(mm):", stickystr='W', show=False)
     head_widgets.append(length_label)
     length_input = input_frame.create_Entry(stickystr='W', show=False)
     head_widgets.append(length_input)
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     fluid_label = input_frame.create_Label("Densidade do fluido(kg/mm3):",18,0,stickystr='W')
     fluid_entry = input_frame.create_Entry(18,1,stickystr='W')
 
-    fluid_level_label = input_frame.create_Label("Nível do fluido no vaso:",19,0,stickystr='W')
+    fluid_level_label = input_frame.create_Label("Nível do fluido no vaso(%):",19,0,stickystr='W')
     fluid_level_entry = input_frame.create_Spinbox(0,100,19,1,stickystr='W')
 
     calc_button = root.create_Button("Calcular", rowint=20, columnspanint=2, ipadxint=100, padyint=10, commandf=lambda: calculate(
