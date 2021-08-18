@@ -6,7 +6,6 @@ import sqlite3
 from enum import Enum
 
 
-
 class window_type(Enum):
     main = 1
     mat_db = 2
@@ -16,7 +15,7 @@ class window_type(Enum):
 
 class GUI():
 
-    def __init__(self, wdw_type, title=None, frame=None,mat_db_wdw=None,res_db_wdw=None) -> None:
+    def __init__(self, wdw_type, title=None, frame=None, mat_db_wdw=None, res_db_wdw=None) -> None:
         if wdw_type == window_type.main:
             self.window = Tk()
             MainMenu = Menu(self.window)
@@ -79,6 +78,17 @@ class GUI():
             name.grid(row=rowint, column=columnint, columnspan=columnspanint,
                       sticky=stickystr, padx=padxint, padyx=padyint)
         return name
+    
+    def destroy(self):
+        self.window.destroy()
+    
+    def create_Spinbox(self,fromint,toint,rowint=None, columnint=None, columnspanint=None, stickystr=None, padxint=None, padyint=None, show=True):
+        name = Spinbox(self.window,from_=fromint,to=toint)
+        if show:
+            name.grid(row=rowint, column=columnint, columnspan=columnspanint,
+                      sticky=stickystr, padx=padxint, pady=padyint)
+        return name
+
 
 
 def update_cblist(material_type_combobox):
@@ -206,7 +216,7 @@ def clearGrid(list_of_widgets):
 
 
 def show_head(head_widgets, show):
-    i = 8
+    i = 10
     j = 0
     for widget in head_widgets:
         if show:
@@ -215,7 +225,10 @@ def show_head(head_widgets, show):
             widget.grid_forget()
         if j == 0:
             j += 1
-        elif j == 1 and i == 12:
+        elif j == 1 and i == 10:
+            j = 0
+            i += 1
+        elif j == 1 and i == 15:
             j -= 1
             i += 1
         else:
@@ -224,8 +237,8 @@ def show_head(head_widgets, show):
 
 def show_cone_angle(cone_angle_label, cone_angle_entry, show):
     if show == True:
-        cone_angle_label.grid(row=14, column=0, sticky='W')
-        cone_angle_entry.grid(row=14, column=1, sticky='W')
+        cone_angle_label.grid(row=17, column=0, sticky='W')
+        cone_angle_entry.grid(row=17, column=1, sticky='W')
     else:
         cone_angle_label.grid_forget()
         cone_angle_entry.grid_forget()
@@ -301,10 +314,10 @@ def pdf_res(id_entry):
 
 
 def get_valor(nome):
-    conn = sqlite3.connect('materiais.db')
+    conn = sqlite3.connect('storage.db')
     cursor1 = conn.cursor()
     cursor1.execute(
-        f"SELECT tensao_adm FROM listamateriais WHERE nome_mat='{nome.get()}'")
+        f"SELECT adm_tension FROM materials_list WHERE mat_name='{nome.get()}'")
     ret = cursor1.fetchall()
     conn.commit()
     conn.close()

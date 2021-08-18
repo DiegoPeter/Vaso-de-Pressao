@@ -4,7 +4,7 @@ import sqlite3
 
 
 def res_db_wdw():
-    res_db = GUI(window_type.res_db)
+    res_db = GUI(window_type.res_db,"Histórico de Resultados")
 
     res_frame = res_db.create_LabelFrame(
         'Histórico de Projetos', 0, columnspanint=12, padyint=10, padxint=10)
