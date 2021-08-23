@@ -6,7 +6,7 @@ from create_pdf import create_pdf
 from res import *
 
 
-def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root, proj_name, list_of_res, saddle_A, saddle_angle, shell_length,fluid_dens,fluid_level,end_diam):
+def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root, proj_name, list_of_res, saddle_A, saddle_angle, shell_length,fluid_dens,fluid_level,end_diam,saddle_width):
 
     clearGrid(list_of_res)
 
@@ -71,6 +71,9 @@ def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root,
         return
     data_in.append(["Nivel do Fluido",f"{fluid_level.get()}%","-"])
     data_out = [["Característica", "Valor", "Unidade", ]]
+    if not check_float_field(saddle_width,"Largura do suporte"):
+        return
+    data_in.append(["Largura do Suporte",f"{saddle_width.get()}","mm"])
 
     frame_res = root.create_LabelFrame(
         "Resultados", 0, 2, 2, padxint=10, padyint=10, rowspanint=15)
@@ -137,21 +140,25 @@ def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root,
         head_thick = (P*D)/(2*S1*WE - 0.2*P)
         V_head_int = (math.pi * pow(D,3))/12
         V_head_out = (math.pi * pow(D+2*head_thick,3))/12
+        Salt=((P*D/head_thick)+0.2*P)/(2*WE)
     elif head_type == 2:
         Hint=D/3.8
         head_thick = (0.885*P*L)/(S1*WE-0.1*P)
         V_head_int = 0.1694 * pow(D,3)
         V_head_out = 0.1694 * pow(D+2*head_thick,3)
+        Salt=((0.885*P*L/head_thick)+0.1*P)/(WE)
     elif head_type == 3:
         Hint=R
         head_thick = (P*L)/(2*S1*WE-0.2*P)
         V_head_int = (4*math.pi * pow(R,3))/3
         V_head_out = (4*math.pi * pow(R+head_thick,3))/3
+        Salt=((P*L/head_thick)+0.2*P)/(2*WE)
     elif head_type == 4:
         alpha=math.tan(Hint/R)
         head_thick = (P*D)/(2*math.cos(alpha)*(S1*WE-0.6*P))
         V_head_int = 2*(math.pi *R*R*Hint)/3
         V_head_out = 2*(math.pi *pow(R+head_thick,2)*(Hint+head_thick))/3
+        Salt=((P*D/(2*math.cos(alpha)*head_thick))+0.6*P)/WE
     elif head_type == 5:
         Dh=end_diam.get()
         Rh=Dh/2
@@ -160,6 +167,7 @@ def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root,
         head_thick = (P*Di)/(2*math.cos(alpha)*(S*WE-0.6*P))
         V_head_int = 2*(math.pi*Hint/3)*(R*R + R*Rh + Rh*Rh)
         V_head_out = 2*(math.pi*(Hint+head_thick)/3)*(pow(R+head_thick,2) + (R+head_thick)*Rh + Rh*Rh)
+        Salt=((P*Di/(2*math.cos(alpha)*head_thick))+0.6*P)/WE
 
 
     #Calculo suportes
@@ -178,6 +186,40 @@ def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root,
     Fluid_weight = Vint * fluid_lvl * fluid_density
     Total_weight = Mat_weight + Fluid_weight
     Q =Total_weight/2
+    b=float(saddle_width.get())
+    S2=((K2*Q)/(R*shell_thick))*((Ls-2*A)/(L + Hint*4/3))
+    if S2 > 0.8*S:
+        messagebox.showinfo("Erro","Tensão do suporte excede os limites impostos")
+        return
+    if Ls >= 8*R:
+        S3=-(Q/(4*shell_thick(b+10*shell_thick)))-((3*K3*Q)/(2*pow(shell_thick,2)))
+    else:
+        S3=-(Q/(4*shell_thick(b+10*shell_thick)))-((12*K3*Q*R)/(Ls*pow(shell_thick,2)))
+    
+    if S3 > 1.5*S:
+        messagebox.showinfo("Erro","Tensão do suporte excede os limites impostos")
+        return
+    
+    S4=(K4*Q)/(R*head_thick)
+    S4 += Salt
+
+    if S4 > 1.25*S1:
+        messagebox.showinfo("Erro","Tensão do suporte excede os limites impostos")
+        return
+
+    ## Calculo Aberturas
+    if D <= 1520:
+        Da=D/2
+        if Da > 510:
+            Da=510
+    else:
+        Da=D/3
+        if Da > 1020:
+            Da=1020
+
+
+
+    #############################################
 
     data_out.append(["Espessura mínima do casco",
                     f"{shell_thick:.2f}", "mm", ])
@@ -207,7 +249,7 @@ def calculate(pre, weld_eff, diam, shell_mat, head_mat, head, head_height, root,
 
     name = proj_name.get()
     pdf_button = root.create_Button("Gerar PDF", lambda: create_pdf(
-        name, data_in, data_out), 19, 2, 2, ipadxint=100, padyint=10, padxint=10)
+        name, data_in, data_out), 20, 2, 2, ipadxint=100, padyint=10, padxint=10)
     list_of_res.append(pdf_button)
 
     shell_name = "Cilíndrico"

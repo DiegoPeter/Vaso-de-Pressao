@@ -49,43 +49,50 @@ if __name__ == '__main__':
         "150°", saddle_angle, 150, None, 7, 1)
 
     length_label = input_frame.create_Label(
-        "Comprimento do casco(mm):",8,0, stickystr='W')
-    length_input = input_frame.create_Entry(8,1,stickystr='W')
+        "Comprimento do casco(mm):", 8, 0, stickystr='W')
+    length_input = input_frame.create_Entry(8, 1, stickystr='W')
 
-    head_type_label = input_frame.create_Label("Tipo de tampo:",9,0,stickystr='W')
+    head_type_label = input_frame.create_Label(
+        "Tipo de tampo:", 9, 0, stickystr='W')
     head_type_1 = input_frame.create_RadioButton("Elipsóidal 2:1", head,
-                                                 1,lambda: show_head_height(head_height_label, head_height_entry, False,end_diam_label,end_diam_entry,False),9,1,stickystr='W')
+                                                 1, lambda: show_head_height(head_height_label, head_height_entry, False, end_diam_label, end_diam_entry, False), 9, 1, stickystr='W')
     head_type_2 = input_frame.create_RadioButton("Toro Esférico", head,
-                                                 2, lambda: show_head_height(head_height_label, head_height_entry, False,end_diam_label,end_diam_entry,False), 10,1,stickystr='W')
+                                                 2, lambda: show_head_height(head_height_label, head_height_entry, False, end_diam_label, end_diam_entry, False), 10, 1, stickystr='W')
     head_type_3 = input_frame.create_RadioButton("Hemisférico", head,
-                                                 3, lambda: show_head_height(head_height_label, head_height_entry, False,end_diam_label,end_diam_entry,False), 11,1,stickystr='W')
+                                                 3, lambda: show_head_height(head_height_label, head_height_entry, False, end_diam_label, end_diam_entry, False), 11, 1, stickystr='W')
     head_type_4 = input_frame.create_RadioButton("Cônico", head,
-                                                 4,lambda: show_head_height(head_height_label, head_height_entry, True,end_diam_label,end_diam_entry,False), 12,1,stickystr='W')
+                                                 4, lambda: show_head_height(head_height_label, head_height_entry, True, end_diam_label, end_diam_entry, False), 12, 1, stickystr='W')
     head_type_5 = input_frame.create_RadioButton("Toro Cônico", head,
-                                                 5, lambda: show_head_height(head_height_label, head_height_entry, True,end_diam_label,end_diam_entry,True), 13,1,stickystr='W')
+                                                 5, lambda: show_head_height(head_height_label, head_height_entry, True, end_diam_label, end_diam_entry, True), 13, 1, stickystr='W')
     head_height_label = input_frame.create_Label(
         "Altura do tampo(mm):", show=False)
     head_height_entry = input_frame.create_Entry(show=False)
 
-    end_diam_label = input_frame.create_Label("Diâmetro final do tampo(mm):",show=False)
+    end_diam_label = input_frame.create_Label(
+        "Diâmetro final do tampo(mm):", show=False)
     end_diam_entry = input_frame.create_Entry(show=False)
 
     head_material_label = input_frame.create_Label(
-        "Tipo de material do tampo:", 14,0)
+        "Tipo de material do tampo:", 14, 0)
 
     head_material_combobox = input_frame.create_Combobox(
-        "Escolha uma opção",14,1, postcommandf=lambda: update_cblist(head_material_combobox))
+        "Escolha uma opção", 14, 1, postcommandf=lambda: update_cblist(head_material_combobox))
 
+    fluid_label = input_frame.create_Label(
+        "Densidade do fluido(kg/mm3):", 17, 0, stickystr='W')
+    fluid_entry = input_frame.create_Entry(17, 1, stickystr='W')
 
-    fluid_label = input_frame.create_Label("Densidade do fluido(kg/mm3):",17,0,stickystr='W')
-    fluid_entry = input_frame.create_Entry(17,1,stickystr='W')
+    fluid_level_label = input_frame.create_Label(
+        "Nível do fluido no vaso(%):", 18, 0, stickystr='W')
+    fluid_level_entry = input_frame.create_Spinbox(
+        0, 100, 18, 1, stickystr='W')
 
-    fluid_level_label = input_frame.create_Label("Nível do fluido no vaso(%):",18,0,stickystr='W')
-    fluid_level_entry = input_frame.create_Spinbox(0,100,18,1,stickystr='W')
+    saddle_width_label = input_frame.create_Label("Largura do suporte:",19,0,stickystr='W')
+    saddle_width_entry = input_frame.create_Entry(19,1,stickystr='W')
 
-    calc_button = root.create_Button("Calcular", rowint=19, columnspanint=2, ipadxint=100, padyint=10, commandf=lambda: calculate(
+    calc_button = root.create_Button("Calcular", rowint=20, columnspanint=2, ipadxint=100, padyint=10, commandf=lambda: calculate(
         pressure_input, weld_efficiency_input, diam_input, shell_material_combobox, head_material_combobox, head, head_height_entry,
-         root, proj_name_input, list_of_res, saddle_A_input, saddle_angle, length_input,end_diam_entry))
+        root, proj_name_input, list_of_res, saddle_A_input, saddle_angle, length_input, end_diam_entry,saddle_width_entry))
 
     list_of_res = []
 
