@@ -215,33 +215,19 @@ def clearGrid(list_of_widgets):
         widget.destroy()
 
 
-def show_head(head_widgets, show):
-    i = 10
-    j = 0
-    for widget in head_widgets:
-        if show:
-            widget.grid(row=i, column=j, sticky='W')
-        else:
-            widget.grid_forget()
-        if j == 0:
-            j += 1
-        elif j == 1 and i == 10:
-            j = 0
-            i += 1
-        elif j == 1 and i == 15:
-            j -= 1
-            i += 1
-        else:
-            i += 1
-
-
-def show_cone_angle(cone_angle_label, cone_angle_entry, show):
+def show_head_height(head_height_label, head_height_entry, show, end_diam_label,end_diam_entry,show2=False):
     if show == True:
-        cone_angle_label.grid(row=17, column=0, sticky='W')
-        cone_angle_entry.grid(row=17, column=1, sticky='W')
+        head_height_label.grid(row=15, column=0, sticky='W')
+        head_height_entry.grid(row=15, column=1, sticky='W')
     else:
-        cone_angle_label.grid_forget()
-        cone_angle_entry.grid_forget()
+        head_height_label.grid_forget()
+        head_height_entry.grid_forget()
+    if show2:
+        end_diam_label.grid(row=16, column=0, sticky='W')
+        end_diam_entry.grid(row=16, column=1, sticky='W')
+    else:
+        end_diam_label.grid_forget()
+        end_diam_entry.grid_forget()
 
 
 def delete_res(id_entry, frame, list):
